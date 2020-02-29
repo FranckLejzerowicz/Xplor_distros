@@ -1,0 +1,2 @@
+include Xplor_distros/tests/metadata/metadata.tsv
+include Xplor_distros/tests/output/metadata.html
