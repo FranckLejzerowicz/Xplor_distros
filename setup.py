@@ -54,10 +54,10 @@ setup(
     packages=find_packages(),
     install_requires=[
         "click",
-        "numpy",
-        "scipy",
-        "pandas",
-        "altair",
+        'numpy >= 1.12.1',
+        'scipy >= 0.19.1',
+        'pandas >= 0.10.0',
+        'altair >= 3.2.0',
         "matplotlib"
     ],
     classifiers=classifiers,
