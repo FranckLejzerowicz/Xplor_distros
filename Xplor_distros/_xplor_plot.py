@@ -166,7 +166,7 @@ def subset_samples(md_fp: str, factor: str, unstacked_md: pd.DataFrame,
     return figure_tab
 
 
-def plot_altair(title: str, figure_tab: pd.DataFrame) -> altair.vegalite.v3.api.VConcatChart:
+def plot_altair(title: str, figure_tab: pd.DataFrame):
     """
     Make the Altair interactive figure: one row of
     interactive figures (three panels) for the
