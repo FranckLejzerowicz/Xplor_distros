@@ -15,8 +15,17 @@ thinking about applying transformations on your data before running analyses.
 
 ## Installation
 
+
+For the first installation, please run:
+
 ```
 pip install git+https://github.com/FranckLejzerowicz/Xplor_distros.git
+```
+
+If there's an update because the developer have been sloppy, please run:
+
+```
+pip install --upgrade git+https://github.com/FranckLejzerowicz/Xplor_distros.git
 ```
 
 *_Note that pip should be for python3_

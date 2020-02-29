@@ -118,7 +118,7 @@ def make_plots(metadatas: dict, stratas: dict, numerical: dict,
 
         # write plot output
         out_dir = dirname(distributions)
-        if not isdir(out_dir):
+        if out_dir and not isdir(out_dir):
             os.makedirs(out_dir)
         if not distributions.endswith('.html'):
             distributions = '%s.html' % distributions

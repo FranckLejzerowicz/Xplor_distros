@@ -42,6 +42,8 @@ def get_dtypes_final(md: pd.DataFrame, dtypes_init: dict) -> dict:
         'Missing', 'missing'
     }
     to_nan = dict((x, np.nan) for x in to_nan_vals)
+    # true_false_rep = {True: 'Yes', False: 'No'}
+    # md.replace(dict((x, true_false_rep) for x in md.columns), inplace=True)
     dtypes_final = {}
     for variable, dtypes in dtypes_init.items():
         if dtypes[-1] == 'check':
@@ -85,15 +87,15 @@ def get_dtypes_init(md: pd.DataFrame) -> dict:
                 ['object', 'check']  : factors are float + "polluting" string
     """
     dtypes_init = {}
-    for col in md.columns[1:]:
+    for variable in md.columns[1:]:
         # for the current metadata table's column
-        native_type = str(md[col].dtypes)   # get the current, pandas dtype
+        native_type = str(md[variable].dtypes)   # get the current, pandas dtype
         if native_type.startswith('int'):
-            dtypes_init[col] = ['int']
+            dtypes_init[variable] = ['int']
         elif native_type.startswith('float'):
-            dtypes_init[col] = ['float']
+            dtypes_init[variable] = ['float']
         else:
-            dtypes_init[col] = check_dtype_object(md[col])
+            dtypes_init[variable] = check_dtype_object(md[variable])
     return dtypes_init
 
 
@@ -119,10 +121,13 @@ def check_dtype_object(factors: pd.Series) -> list:
     has_nan = False
     has_float = False
     has_non_float = False
+    has_tf = False
     # for the unique factors of the current variable
     for val in factors.unique().tolist():
         if str(val) == 'nan':
             has_nan = True # if np.nan in the factors
+        elif str(val) in ['True', 'Falsw']:
+            has_tf = True  # if np.nan in the factors
         else:
             # check if the non-np.nan values are float
             try:
@@ -137,7 +142,10 @@ def check_dtype_object(factors: pd.Series) -> list:
         else:
             d_type.append('object')
     else:
-        d_type.append('float')
+        if has_tf:
+            d_type.append('object')
+        else:
+            d_type.append('float')
     return d_type
 
 
@@ -191,6 +199,6 @@ def split_variables_types(dtypes: dict) -> tuple:
         for var, dtype in var_dtypes.items():
             if dtype == 'object':
                 categorical.setdefault(md_fp, []).append(var)
-            else:
+            elif dtype in ['int', 'float']:
                 numerical.setdefault(md_fp, []).append(var)
-    return numerical, categorical
+        return numerical, categorical
